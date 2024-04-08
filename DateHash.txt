@@ -21,7 +21,11 @@ from sklearn.model_selection import train_test_split
 # flaresPerDay.reshape(1, -1)
 #dates.reshape(1, -1)
 
-
+flaresPerDay =  np.array([days.count(i) for i in range(days[-1:][0]+1)])
+dates = []
+for i in range(days[-1:][0]+1):
+    dates.append([i])
+npDates = np.array(dates)
 
 
 target = flaresPerDay
