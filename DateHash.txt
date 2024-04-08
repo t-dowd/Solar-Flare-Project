@@ -9,3 +9,41 @@ for date in data["start.date"]:
     day = int(date[8:]) + int(date[5:7])*daysInMonth + int(date[:4])*365 - 730798
     #print(day)
     days.append(day)
+
+
+from sklearn.linear_model import LinearRegression
+        #from sklearn.linear_model import Logisti
+from sklearn.preprocessing import PolynomialFeatures
+model = LinearRegression(fit_intercept=True)
+
+from sklearn.model_selection import train_test_split
+# flaresPerDay.reshape(1, -1)
+#dates.reshape(1, -1)
+
+
+
+
+target = flaresPerDay
+X = npDates
+
+poly = PolynomialFeatures(degree=6)
+X_poly = poly.fit_transform(X)
+X_with_sin = np.concatenate((X_poly, np.sin(X)), axis=1)
+
+# Phi = phi(X, 3)[0]
+# print(Phi.shape)
+
+# X_train, X_test, y_train, y_test = train_test_split(
+#     X, target, test_size = 0.2)
+
+
+
+model.fit(X_poly, target)
+
+# New Cell
+
+%matplotlib inline
+
+predicted = model.predict(X_poly)
+plt.plot(X, predicted, 'r-', X_test, y_test, 'k.')
+plt.show()
