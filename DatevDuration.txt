@@ -1,0 +1,35 @@
+from sklearn.preprocessing import PolynomialFeatures
+
+# Shuffle the data
+indices = np.random.permutation(len(Full_Solar_Data))
+shuffled_days = np.array(days)[indices]
+shuffled_durations = np.array(Full_Solar_Data['duration.s'])[indices]
+
+# Reshape the shuffled_days array
+shuffled_days = shuffled_days.reshape(-1, 1)
+
+# Create polynomial and sinusoidal features
+poly = PolynomialFeatures(degree=4)  # You can adjust the degree as needed
+X_poly = poly.fit_transform(shuffled_days)
+X_with_sin = np.concatenate((X_poly, np.sin(shuffled_days)), axis=1)
+
+# Fit linear regression model
+model = LinearRegression()
+model.fit(X_with_sin, shuffled_durations)
+
+# Predict durations
+predicted_durations = model.predict(X_with_sin)
+
+# Sort the shuffled_days for better visualization
+sorted_indices = np.argsort(shuffled_days[:,0])
+sorted_days = shuffled_days[sorted_indices]
+sorted_predicted_durations = predicted_durations[sorted_indices]
+
+# Plot the shuffled data and regression line
+plt.scatter(shuffled_days, shuffled_durations, color='skyblue', edgecolor='black')
+plt.plot(sorted_days, sorted_predicted_durations, color='red', linewidth=2)
+
+plt.title('Date vs Duration (with Polynomial and Sinusoidal Features)')
+plt.xlabel('Date')
+plt.ylabel('Duration')
+plt.show()
