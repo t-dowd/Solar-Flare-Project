@@ -1,0 +1,11 @@
+days = []
+for date in data["start.date"]:
+    daysInMonth = 31
+    month = date[5:7]
+    if month == "04" or month == "06" or month == "09" or month == "11":
+        daysInMonth = 30
+    elif month == "02":
+        daysInMonth = 28
+    day = int(date[8:]) + int(date[5:7])*daysInMonth + int(date[:4])*365 - 730798
+    #print(day)
+    days.append(day)
